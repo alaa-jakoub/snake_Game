@@ -22,7 +22,7 @@ public class Panel extends JPanel implements Runnable{
     //loop
     public Thread thread;
     private long currentTime;
-    private int FPS=30;
+    private int FPS=10;
     private double drawInterval =Math.pow(10, 9)/FPS,nextDrawTime,remainingTime,delta;
     private long lastTime,timer ;
     private int drawCount;
