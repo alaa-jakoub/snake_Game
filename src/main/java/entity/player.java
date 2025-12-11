@@ -13,11 +13,15 @@ public class player extends entity{
     public player(){
 
 
-        coordinates_player = new Coordinates[10];
+        coordinates_player = new Coordinates[144];
         for(int i=0 ;i<10;i++){
             coordinates_player[i]=new Coordinates();
         }
-        player_rec = new Rectangle[3];
+        player_rec = new Rectangle[144];
+        for(int i=0 ; i<10 ;i++){
+            player_rec[i] = new Rectangle();
+            player_rec[i].setSize(Panel.tile_size , Panel.tile_size);
+        }
 
     }
 
@@ -27,16 +31,24 @@ public class player extends entity{
             coordinates_player[i].x=coordinates_player[i-1].x;
             coordinates_player[i].y=coordinates_player[i-1].y;
         }
-
-        if(direction.equalsIgnoreCase("up")){
-            coordinates_player[0].y -= Panel.tile_size ;
-        }else if(direction.equalsIgnoreCase("down")){
-            coordinates_player[0].y += Panel.tile_size ;
-        }else if(direction.equalsIgnoreCase("left")){
-            coordinates_player[0].x -= Panel.tile_size ;
-        }else if(direction.equalsIgnoreCase("right")){
-            coordinates_player[0].x += Panel.tile_size ;
-
+        if(player_rec[0].intersects(Panel.borders[0])) {
+            coordinates_player[0].y = Panel.screenHeight;
+        }else   if(player_rec[0].intersects(Panel.borders[2])) {
+            coordinates_player[0].y = 0;
+        }else   if(player_rec[0].intersects(Panel.borders[3])) {
+            coordinates_player[0].x = Panel.screenWidth;
+        }else   if(player_rec[0].intersects(Panel.borders[1])) {
+            coordinates_player[0].x = 0;
+        }else {
+            if (direction.equalsIgnoreCase("up")) {
+                coordinates_player[0].y -= Panel.tile_size;
+            } else if (direction.equalsIgnoreCase("down")) {
+                coordinates_player[0].y += Panel.tile_size;
+            } else if (direction.equalsIgnoreCase("left")) {
+                coordinates_player[0].x -= Panel.tile_size;
+            } else if (direction.equalsIgnoreCase("right")) {
+                coordinates_player[0].x += Panel.tile_size;
+            }
         }
 
 
@@ -44,12 +56,16 @@ public class player extends entity{
 
     @Override
     public void draw(Graphics2D g2d){
-//        g2d.fillRect(coordinates_player[0].x ,coordinates_player[0].y , Panel.tile_size ,  Panel.tile_size);
-//        g2d.fillRect(coordinates_player[1].x ,coordinates_player[1].y , Panel.tile_size ,  Panel.tile_size);
-//        g2d.setColor(Color.BLUE);
-//        g2d.fillRect(coordinates_player[2].x ,coordinates_player[2].y , Panel.tile_size ,  Panel.tile_size);
+
         for(int i=0;i<10;i++){
-            g2d.fillRect(coordinates_player[i].x ,coordinates_player[i].y , Panel.tile_size ,  Panel.tile_size);
+            if(i==0){
+                g2d.setColor(Color.BLUE);
+            }else {
+                g2d.setColor(Color.WHITE);
+            }
+            player_rec[i].setLocation(coordinates_player[i].x,coordinates_player[i].y);
+            g2d.fill(player_rec[i]);
+//            g2d.fillRect(coordinates_player[i].x ,coordinates_player[i].y , Panel.tile_size ,  Panel.tile_size);
         }
     }
 

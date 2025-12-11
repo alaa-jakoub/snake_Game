@@ -29,11 +29,16 @@ public class Panel extends JPanel implements Runnable{
     private int gameState;
     public int fpsCount;
     //
-
+    //border
+    public static Rectangle [] borders ;
     //player
     player player1 ;
     //constructor
     public Panel () {
+        borders = new Rectangle[4];
+        for(int i=0 ; i<4 ; i++){
+            borders[i]=new Rectangle();
+        }
         player1 = new player();
         setPreferredSize(new Dimension(screenWidth,screenHeight));
         setBackground(Color.BLACK);
@@ -43,7 +48,14 @@ public class Panel extends JPanel implements Runnable{
         setLayout(null);
         thread =new Thread(this);
         gameStatus=loading;
-
+        borders[0].setLocation(0 ,-1 * screenHeight);
+        borders[0].setSize(screenWidth,screenHeight);
+        borders[1].setLocation(screenWidth,0);
+        borders[1].setSize(screenWidth,screenHeight);
+        borders[2].setLocation(0,screenHeight);
+        borders[2].setSize(screenWidth,screenHeight);
+        borders[3].setLocation(-1 * screenWidth,0);
+        borders[3].setSize(screenWidth,screenHeight);
     }
 
 
@@ -59,6 +71,10 @@ public class Panel extends JPanel implements Runnable{
         }
         for(int j=0 ; j<=screenWidth ; j+=32){
             g2d.drawLine(j,0,j,screenHeight);
+        }
+        g2d.setColor(Color.WHITE);
+        for(Rectangle rectangle : borders){
+            g2d.fill(rectangle);
         }
         player1.draw(g2d);
 
