@@ -19,11 +19,31 @@ public class event_handler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_UP){
+            panel.player1.direction = "up" ;
+        }else if (e.getKeyCode() == KeyEvent.VK_DOWN){
+            panel.player1.direction = "down" ;
+        }else if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            panel.player1.direction = "left" ;
+        }else{
+            panel.player1.direction = "right" ;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_UP){
+            panel.player1.direction = "up" ;
+            System.out.println("up");
+        }else if (e.getKeyCode() == KeyEvent.VK_DOWN){
+            panel.player1.direction = "down" ;
+            System.out.println("down");
+        }else if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            panel.player1.direction = "left" ;
+            System.out.println("left");
+        }else{
+            panel.player1.direction = "right" ;
+            System.out.println("right");
+        }
     }
 }
