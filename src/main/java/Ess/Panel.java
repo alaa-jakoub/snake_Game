@@ -22,23 +22,17 @@ public class Panel extends JPanel implements Runnable{
     //loop
     public Thread thread;
     private long currentTime;
-    private int FPS=10;
-    private double drawInterval =Math.pow(10, 9)/FPS,nextDrawTime,remainingTime,delta;
+    private int FPS=30;
+    private double drawInterval =Math.pow(10, 9)/FPS,move_interval=0.13,move_timer,delta,delta_time;
     private long lastTime,timer ;
     private int drawCount;
     private int gameState;
     public int fpsCount;
     //
-    //border
-    public static Rectangle [] borders ;
     //player
     player player1 ;
     //constructor
     public Panel () {
-        borders = new Rectangle[4];
-        for(int i=0 ; i<4 ; i++){
-            borders[i]=new Rectangle();
-        }
         player1 = new player();
         setPreferredSize(new Dimension(screenWidth,screenHeight));
         setBackground(Color.BLACK);
@@ -48,14 +42,6 @@ public class Panel extends JPanel implements Runnable{
         setLayout(null);
         thread =new Thread(this);
         gameStatus=loading;
-        borders[0].setLocation(0 ,-1 * screenHeight);
-        borders[0].setSize(screenWidth,screenHeight);
-        borders[1].setLocation(screenWidth,0);
-        borders[1].setSize(screenWidth,screenHeight);
-        borders[2].setLocation(0,screenHeight);
-        borders[2].setSize(screenWidth,screenHeight);
-        borders[3].setLocation(-1 * screenWidth,0);
-        borders[3].setSize(screenWidth,screenHeight);
     }
 
 
@@ -73,15 +59,12 @@ public class Panel extends JPanel implements Runnable{
             g2d.drawLine(j,0,j,screenHeight);
         }
         g2d.setColor(Color.WHITE);
-        for(Rectangle rectangle : borders){
-            g2d.fill(rectangle);
-        }
         player1.draw(g2d);
 
     }
 
     public void update(){
-        player1.update();
+
     }
 
 
@@ -89,6 +72,7 @@ public class Panel extends JPanel implements Runnable{
     public void run() {
         drawInterval =Math.pow(10, 9)/FPS;
         delta=0;
+        delta_time=0;
         lastTime=System.nanoTime();
         timer=0;
         drawCount=0;
@@ -96,13 +80,17 @@ public class Panel extends JPanel implements Runnable{
         while(thread !=null) {
             currentTime = System.nanoTime();
             delta+=(currentTime - lastTime)/drawInterval;
+            delta_time+=(currentTime - lastTime)/Math.pow(10,9);
             timer+=(currentTime  - lastTime);
             lastTime =currentTime;
-
+            if(delta_time>=move_interval){
+                player1.update();
+                delta_time=0;
+            }
             if(delta>=1) {
                 update();
                 repaint();
-                delta--;
+                delta=0;
                 drawCount++;
             }
             if(timer>=1000000000) {

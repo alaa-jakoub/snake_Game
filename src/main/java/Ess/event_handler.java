@@ -5,11 +5,9 @@ import java.awt.event.KeyListener;
 
 public class event_handler implements KeyListener {
     public Panel panel;
-    public boolean pressed;
     //constructor
     public event_handler (Panel panel) {
         this.panel = panel ;
-        pressed =false ;
     }
 
 
@@ -20,75 +18,39 @@ public class event_handler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(!pressed) {
-            if (e.getKeyCode() == KeyEvent.VK_UP) {
-                if (panel.player1.direction.equalsIgnoreCase("down")) {
-                    panel.player1.direction = "down";
-                } else {
-                    panel.player1.direction = "up";
-                }
-                pressed = !pressed;
-            } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                if (panel.player1.direction.equalsIgnoreCase("up")) {
-                    panel.player1.direction = "up";
-                } else {
-                    panel.player1.direction = "down";
-                }
-                pressed = !pressed;
-            } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                if (panel.player1.direction.equalsIgnoreCase("right")) {
-                    panel.player1.direction = "right";
-                } else {
-                    panel.player1.direction = "left";
-                }
-                pressed = !pressed;
-            } else {
-                if (panel.player1.direction.equalsIgnoreCase("left")) {
-                    panel.player1.direction = "left";
-                } else {
-                    panel.player1.direction = "right";
-                }
-                pressed = !pressed;
-            }
-
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                panel.player1.next_direction = "up";
+                break;
+            case KeyEvent.VK_DOWN:
+                panel.player1.next_direction = "down";
+                break;
+            case KeyEvent.VK_LEFT:
+                panel.player1.next_direction = "left";
+                break;
+            case KeyEvent.VK_RIGHT:
+                panel.player1.next_direction = "right";
+                break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (panel.player1.direction.equalsIgnoreCase("down")) {
-                panel.player1.direction = "down";
-            } else {
-                panel.player1.direction = "up";
-            }
-            if (pressed)
-                pressed =! pressed;
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (panel.player1.direction.equalsIgnoreCase("up")) {
-                panel.player1.direction = "up";
-            } else {
-                panel.player1.direction = "down";
-            }
-            if (pressed)
-                pressed =! pressed;
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (panel.player1.direction.equalsIgnoreCase("right")) {
-                panel.player1.direction = "right";
-            } else {
-                panel.player1.direction = "left";
-            }
-            if (pressed)
-                pressed =! pressed;
-        } else {
-            if (panel.player1.direction.equalsIgnoreCase("left")) {
-                panel.player1.direction = "left";
-            } else {
-                panel.player1.direction = "right";
-            }
-            if (pressed)
-                pressed =! pressed;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                panel.player1.next_direction = "up";
+                break;
+            case KeyEvent.VK_DOWN:
+                panel.player1.next_direction = "down";
+                break;
+            case KeyEvent.VK_LEFT:
+                panel.player1.next_direction = "left";
+                break;
+            case KeyEvent.VK_RIGHT:
+                panel.player1.next_direction = "right";
+                break;
         }
-
     }
+
+
 }

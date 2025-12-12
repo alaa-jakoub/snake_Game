@@ -8,8 +8,6 @@ import java.awt.*;
 public class player extends entity{
     Coordinates [] coordinates_player ;
     Rectangle [] player_rec ;
-    int i=0 , temp_X=0 ,temp_Y=0 ;
-    Coordinates [] temp_coordinates ;
     public player(){
 
 
@@ -22,36 +20,31 @@ public class player extends entity{
             player_rec[i] = new Rectangle();
             player_rec[i].setSize(Panel.tile_size , Panel.tile_size);
         }
+        direction = "right";
 
     }
 
     @Override
     public void update(){
+        if(!next_direction.equalsIgnoreCase(opposite_direction(direction))){
+            direction=next_direction;
+        }
         for(int i=9 ;i>0;i--){
             coordinates_player[i].x=coordinates_player[i-1].x;
             coordinates_player[i].y=coordinates_player[i-1].y;
         }
-        if(player_rec[0].intersects(Panel.borders[0])) {
-            coordinates_player[0].y = Panel.screenHeight;
-        }else   if(player_rec[0].intersects(Panel.borders[2])) {
-            coordinates_player[0].y = 0;
-        }else   if(player_rec[0].intersects(Panel.borders[3])) {
-            coordinates_player[0].x = Panel.screenWidth;
-        }else   if(player_rec[0].intersects(Panel.borders[1])) {
-            coordinates_player[0].x = 0;
-        }else {
-            if (direction.equalsIgnoreCase("up")) {
-                coordinates_player[0].y -= Panel.tile_size;
-            } else if (direction.equalsIgnoreCase("down")) {
-                coordinates_player[0].y += Panel.tile_size;
-            } else if (direction.equalsIgnoreCase("left")) {
-                coordinates_player[0].x -= Panel.tile_size;
-            } else if (direction.equalsIgnoreCase("right")) {
-                coordinates_player[0].x += Panel.tile_size;
-            }
+        switch (direction) {
+            case "up":    coordinates_player[0].y -= Panel.tile_size; break;
+            case "down":  coordinates_player[0].y += Panel.tile_size; break;
+            case "left":  coordinates_player[0].x -= Panel.tile_size; break;
+            case "right": coordinates_player[0].x += Panel.tile_size; break;
         }
 
+        if (coordinates_player[0].x < 0) coordinates_player[0].x = Panel.screenWidth - Panel.tile_size;
+        if (coordinates_player[0].x >= Panel.screenWidth) coordinates_player[0].x = 0;
 
+        if (coordinates_player[0].y < 0) coordinates_player[0].y = Panel.screenHeight - Panel.tile_size;
+        if (coordinates_player[0].y >= Panel.screenHeight) coordinates_player[0].y = 0;
     }
 
     @Override
@@ -65,9 +58,16 @@ public class player extends entity{
             }
             player_rec[i].setLocation(coordinates_player[i].x,coordinates_player[i].y);
             g2d.fill(player_rec[i]);
-//            g2d.fillRect(coordinates_player[i].x ,coordinates_player[i].y , Panel.tile_size ,  Panel.tile_size);
         }
     }
-
+    public String opposite_direction(String dire){
+        return switch (dire) {
+            case "up" -> "down";
+            case "down" -> "up";
+            case "right" -> "left";
+            case "left" -> "right";
+            default -> "";
+        };
+    }
 
 }
