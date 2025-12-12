@@ -1,5 +1,6 @@
 package Ess;
 
+import entity.food;
 import entity.player;
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ public class Panel extends JPanel implements Runnable{
     //loop
     public Thread thread;
     private long currentTime;
-    private int FPS=30;
+    private int FPS=120;
     private double drawInterval =Math.pow(10, 9)/FPS,move_interval=0.13,move_timer,delta,delta_time;
     private long lastTime,timer ;
     private int drawCount;
@@ -30,10 +31,16 @@ public class Panel extends JPanel implements Runnable{
     public int fpsCount;
     //
     //player
-    player player1 ;
+    public player player1 ;
+    //food eentity
+    food food ;
+    //orginizationTool
+    public static orginizationTool orginizationTool = new orginizationTool();
+
     //constructor
     public Panel () {
-        player1 = new player();
+        player1 = new player(this);
+        food = new food(this);
         setPreferredSize(new Dimension(screenWidth,screenHeight));
         setBackground(Color.BLACK);
         super.setDoubleBuffered(true);
@@ -60,11 +67,12 @@ public class Panel extends JPanel implements Runnable{
         }
         g2d.setColor(Color.WHITE);
         player1.draw(g2d);
+        food.draw(g2d);
 
     }
 
     public void update(){
-
+        food.update();
     }
 
 

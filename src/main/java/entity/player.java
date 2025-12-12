@@ -6,21 +6,22 @@ import Ess.Panel;
 import java.awt.*;
 
 public class player extends entity{
+    final int player_length = (Ess.Panel.screenWidth / Panel.tile_size)*(Panel.screenHeight / Panel.tile_size);
     Coordinates [] coordinates_player ;
-    Rectangle [] player_rec ;
-    public player(){
-
-
-        coordinates_player = new Coordinates[144];
-        for(int i=0 ;i<10;i++){
+    public Rectangle [] player_rec ;
+    public static int player_squares =1;
+    public player(Panel panel){
+        super(panel);
+        coordinates_player = new Coordinates[player_length];
+        for(int i=0 ;i<player_length;i++){
             coordinates_player[i]=new Coordinates();
         }
-        player_rec = new Rectangle[144];
-        for(int i=0 ; i<10 ;i++){
+        player_rec = new Rectangle[player_length];
+        for(int i=0 ; i<player_length ;i++){
             player_rec[i] = new Rectangle();
             player_rec[i].setSize(Panel.tile_size , Panel.tile_size);
         }
-        direction = "right";
+        next_direction = "right";
 
     }
 
@@ -29,7 +30,7 @@ public class player extends entity{
         if(!next_direction.equalsIgnoreCase(opposite_direction(direction))){
             direction=next_direction;
         }
-        for(int i=9 ;i>0;i--){
+        for(int i=player_squares -1  ;i>0;i--){
             coordinates_player[i].x=coordinates_player[i-1].x;
             coordinates_player[i].y=coordinates_player[i-1].y;
         }
@@ -50,7 +51,7 @@ public class player extends entity{
     @Override
     public void draw(Graphics2D g2d){
 
-        for(int i=0;i<10;i++){
+        for(int i=0;i<player_squares;i++){
             if(i==0){
                 g2d.setColor(Color.BLUE);
             }else {
