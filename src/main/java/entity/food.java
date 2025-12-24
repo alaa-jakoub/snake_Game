@@ -10,6 +10,7 @@ import java.util.Random;
 public class food extends entity{
     public Rectangle food_rec ;
     int x=0, y=0;
+    boolean onSnake = false;
     public Random random ;
     public food(Panel panel) {
         super(panel);
@@ -27,17 +28,24 @@ public class food extends entity{
     }
 
     @Override
-    public void update (){
+    public void update () {
         if (panel.player1.player_rec[0].intersects(food_rec)) {
-            x=random.nextInt(0,12) * Panel.tile_size;
-            y=random.nextInt(0,12) * Panel.tile_size;
-            for(int i = 0 ; i<player.player_squares ; i++){
-                if(panel.player1.player_rec[i].x==x && panel.player1.player_rec[i].y==y){
-                    x=random.nextInt(0,12) * Panel.tile_size;
-                    y=random.nextInt(0,12) * Panel.tile_size;
+
+            do {
+                onSnake=false;
+                x = random.nextInt(0, 12) * Panel.tile_size;
+                y = random.nextInt(0, 12) * Panel.tile_size;
+                for (int i = 0; i < player.player_squares; i++) {
+                    if (panel.player1.player_rec[i].x == x && panel.player1.player_rec[i].y == y) {
+                        onSnake=true;
+                        break;
+                    }
                 }
-            }
-            food_rec.setLocation(x , y);
+
+
+
+            } while (onSnake) ;
+            food_rec.setLocation(x, y);
             player.player_squares++;
         }
     }

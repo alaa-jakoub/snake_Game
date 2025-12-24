@@ -10,12 +10,18 @@ public class player extends entity{
     Coordinates [] coordinates_player ;
     public Rectangle [] player_rec ;
     public static int player_squares =1;
+    float t;
+    int red,blue,green ;
     public player(Panel panel){
         super(panel);
         coordinates_player = new Coordinates[player_length];
         for(int i=0 ;i<player_length;i++){
             coordinates_player[i]=new Coordinates();
         }
+        red=0;
+        green=0;
+        blue=255;
+
         player_rec = new Rectangle[player_length];
         for(int i=0 ; i<player_length ;i++){
             player_rec[i] = new Rectangle();
@@ -52,10 +58,16 @@ public class player extends entity{
     public void draw(Graphics2D g2d){
 
         for(int i=0;i<player_squares;i++){
-            if(i==0){
-                g2d.setColor(Color.BLUE);
-            }else {
-                g2d.setColor(Color.WHITE);
+            try {
+                t = (float) i / Math.max(1, player_squares - 1);
+
+                red = (int) (125 * t);
+                green = (int) (150 * (1 - t));
+                blue = 255;
+
+                g2d.setColor(new Color(red, green, blue));
+            }catch(IllegalArgumentException e){
+                e.printStackTrace();
             }
             player_rec[i].setLocation(coordinates_player[i].x,coordinates_player[i].y);
             g2d.fill(player_rec[i]);

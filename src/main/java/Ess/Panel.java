@@ -24,7 +24,7 @@ public class Panel extends JPanel implements Runnable{
     public Thread thread;
     private long currentTime;
     private int FPS=120;
-    private double drawInterval =Math.pow(10, 9)/FPS,move_interval=0.13,move_timer,delta,delta_time;
+    private double drawInterval =Math.pow(10, 9)/FPS,move_interval=0.25,move_timer,delta,delta_time;
     private long lastTime,timer ;
     private int drawCount;
     private int gameState;
