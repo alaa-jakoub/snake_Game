@@ -30,6 +30,14 @@ public class Panel extends JPanel implements Runnable{
     private int gameState;
     public int fpsCount;
     //
+    int sprite_image_counter =0 ;
+    int color_sprite_counter=0;
+    int images_sprite_i =0;
+    boolean reverse = false;
+    //
+    //ui
+    user_interface ui ;
+    public int colorB , colorR ,colorG;
     //player
     public player player1 ;
     //food eentity
@@ -39,6 +47,7 @@ public class Panel extends JPanel implements Runnable{
 
     //constructor
     public Panel () {
+        ui = new user_interface(this);
         player1 = new player(this);
         food = new food(this);
         setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -72,7 +81,46 @@ public class Panel extends JPanel implements Runnable{
     }
 
     public void update(){
-        food.update();
+        switch (gameStatus) {
+            case playing :{
+                Main.frame.setVisible(true);
+                food.update();
+            }
+            case loading :{
+                ui.start_up_frame.setVisible(true);
+                if(color_sprite_counter > 20){
+                    ui.textLabel.setForeground(new Color(colorR,colorG,colorB));
+                    color_sprite_counter =0;
+                }
+                color_sprite_counter ++;
+                if (sprite_image_counter >5){
+                    colorB = food.random.nextInt(100,255);
+                    colorR = food.random.nextInt(50,255);
+                    colorG = food.random.nextInt(30,255);
+
+                    if(images_sprite_i <= 0){
+                        reverse = false;
+                        images_sprite_i = 0;
+                    }
+                    if(images_sprite_i >= 5){
+                        reverse = true ;
+                        images_sprite_i = 4;
+                    }
+                    ui.mousa_label[0].setIcon(ui.icon[images_sprite_i]);
+                    ui.mousa_label[1].setIcon(ui.icon[images_sprite_i]);
+                    ui.mousa_label[2].setIcon(ui.icon[images_sprite_i]);
+                    ui.mousa_label[3].setIcon(ui.icon[images_sprite_i]);
+                    if(reverse){
+                        --images_sprite_i;
+                    }else {
+                        ++images_sprite_i;
+                    }
+                    sprite_image_counter =0;
+                }
+                sprite_image_counter++;
+            }
+
+        }
     }
 
 
@@ -91,7 +139,7 @@ public class Panel extends JPanel implements Runnable{
             delta_time+=(currentTime - lastTime)/Math.pow(10,9);
             timer+=(currentTime  - lastTime);
             lastTime =currentTime;
-            if(delta_time>=move_interval){
+            if(delta_time>=move_interval && gameStatus == playing){
                 player1.update();
                 delta_time=0;
             }

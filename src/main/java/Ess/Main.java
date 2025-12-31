@@ -3,9 +3,10 @@ package Ess;
 import javax.swing.*;
 
 public class Main {
+    public static JFrame frame = new JFrame();
     public static void main (String args[]) {
         Panel panel = new Panel();
-        JFrame frame = new JFrame();
+
         frame.setTitle("Aj game");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -13,7 +14,6 @@ public class Main {
         frame.add(panel);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
         panel.thread.start();
 
     }
