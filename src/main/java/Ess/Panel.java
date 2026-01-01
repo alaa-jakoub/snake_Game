@@ -83,13 +83,13 @@ public class Panel extends JPanel implements Runnable{
     public void update(){
         switch (gameStatus) {
             case playing :{
-                Main.frame.setVisible(true);
+
                 food.update();
             }
             case loading :{
-                ui.start_up_frame.setVisible(true);
-                if(color_sprite_counter > 20){
-                    ui.textLabel.setForeground(new Color(colorR,colorG,colorB));
+
+                if(color_sprite_counter > 50){
+                    ui.start_up_button.setForeground(new Color(colorR,colorG,colorB));
                     color_sprite_counter =0;
                 }
                 color_sprite_counter ++;

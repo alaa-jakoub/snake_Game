@@ -3,6 +3,8 @@ package Ess;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -13,7 +15,7 @@ public class user_interface {
     public Icon[] icon;
     JLabel [] mousa_label;
     public JLabel textLabel ;
-    JButton start_up_button = new JButton();
+    public JButton start_up_button = new JButton();
     public user_interface(Panel panel){
         this.panel=panel;
         initialize_start_up_frame();
@@ -34,7 +36,24 @@ public class user_interface {
         start_up_frame.setLocationRelativeTo(null);
         start_up_frame.setResizable(false);
         start_up_frame.setLayout(null);
-
+        start_up_button.setSize(Panel.tile_size*4 , Panel.tile_size*4);
+        start_up_button.setFocusable(true);
+        start_up_button.setBorder(null);
+        start_up_button.setOpaque(false);
+        start_up_button.setBackground(new Color(255,255,255));
+        start_up_button.setFont(textLabel.getFont());
+        start_up_button.setText("Start");
+        start_up_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource()==start_up_button){
+                    start_up_frame.setVisible(false);
+                    Main.frame.setVisible(true);
+                    panel.gameStatus=panel.playing;
+                }
+            }
+        });
+        start_up_button.setBounds(new Rectangle((Panel.screenWidth - start_up_button.getWidth())/2,(Panel.screenHeight-start_up_button.getHeight())/2,start_up_button.getWidth(),start_up_button.getHeight()));
         for (int i=0 ; i< welcome_sprites.length ; i++){
             try{
 
@@ -57,7 +76,9 @@ public class user_interface {
         mousa_label[1].setBounds((Panel.screenWidth-(Panel.tile_size*4)), (Panel.screenHeight-(Panel.tile_size*4))/Panel.screenHeight, Panel.tile_size*4 ,Panel.tile_size*4);
         mousa_label[2].setBounds((Panel.screenWidth-(Panel.tile_size*4))/Panel.screenWidth, (Panel.screenHeight-(Panel.tile_size*4)), Panel.tile_size*4 ,Panel.tile_size*4);
         mousa_label[3].setBounds((Panel.screenWidth-(Panel.tile_size*4)), (Panel.screenHeight-(Panel.tile_size*4)), Panel.tile_size*4 ,Panel.tile_size*4);
-        start_up_frame.add(textLabel);
+//        start_up_frame.add(textLabel);
+        start_up_frame.add(start_up_button);
+        start_up_frame.setVisible(true);
     }
 
 
