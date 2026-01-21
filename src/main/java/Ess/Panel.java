@@ -102,9 +102,9 @@ public class Panel extends JPanel implements Runnable{
                         reverse = false;
                         images_sprite_i = 0;
                     }
-                    if(images_sprite_i >= 5){
+                    if(images_sprite_i >= 21){
                         reverse = true ;
-                        images_sprite_i = 4;
+                        images_sprite_i = 20;
                     }
                     ui.mousa_label[0].setIcon(ui.icon[images_sprite_i]);
                     ui.mousa_label[1].setIcon(ui.icon[images_sprite_i]);

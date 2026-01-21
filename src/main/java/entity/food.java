@@ -20,7 +20,7 @@ public class food extends entity{
 
         random = new Random();
         try {
-            entityImage = ImageIO.read(getClass().getResourceAsStream("/mousa blue eye.png"));
+            entityImage = ImageIO.read(getClass().getResourceAsStream("/ree-vector-red-apple-png_600x.jpg"));
             entityImage = Panel.orginizationTool.scaleImage(entityImage,Panel.tile_size,Panel.tile_size);
         } catch (IOException e) {
             throw new RuntimeException(e);

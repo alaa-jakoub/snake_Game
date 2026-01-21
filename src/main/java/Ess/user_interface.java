@@ -23,14 +23,14 @@ public class user_interface {
     }
     public void initialize_start_up_frame (){
         start_up_frame = new JFrame();
-        welcome_sprites = new BufferedImage [5];
+        welcome_sprites = new BufferedImage [21];
         mousa_label = new JLabel[4];
         textLabel = new JLabel("<html>I Wish You<br> Happy New Year.</html>");
         textLabel.setFont(new Font("showcard gothic",Font.PLAIN,30));
         textLabel.setBackground(Color.WHITE);
         textLabel.setForeground(new Color(panel.colorR,panel.colorG,panel.colorB));
         textLabel.setBounds((Panel.screenWidth - Panel.tile_size*6)/2,(Panel.screenHeight-Panel.tile_size*4)/2,Panel.tile_size*6,Panel.tile_size*4);
-        icon = new Icon[5];
+        icon = new Icon[21];
         start_up_frame.setSize(Panel.screenWidth,Panel.screenHeight);
         start_up_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         start_up_frame.setLocationRelativeTo(null);
