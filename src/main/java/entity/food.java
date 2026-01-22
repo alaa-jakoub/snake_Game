@@ -9,16 +9,19 @@ import java.util.Random;
 
 public class food extends entity{
     public Rectangle food_rec ;
-    int x=0, y=0;
+    public int x=0;
+    public int y=0;
     boolean onSnake = false;
     public Random random ;
     public food(Panel panel) {
         super(panel);
+        random = new Random();
         food_rec = new Rectangle(Panel.tile_size , Panel.tile_size);
-        x=y= 11 * Panel.tile_size;
+        x= random.nextInt(0,11) * Panel.tile_size;
+        y= random.nextInt(0,11) * Panel.tile_size;
         food_rec.setLocation(x,y);
 
-        random = new Random();
+
         try {
             entityImage = ImageIO.read(getClass().getResourceAsStream("/ree-vector-red-apple-png_600x.jpg"));
             entityImage = Panel.orginizationTool.scaleImage(entityImage,Panel.tile_size,Panel.tile_size);

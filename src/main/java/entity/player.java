@@ -7,17 +7,22 @@ import java.awt.*;
 
 public class player extends entity{
     final int player_length = (Ess.Panel.screenWidth / Panel.tile_size)*(Panel.screenHeight / Panel.tile_size);
-    Coordinates [] coordinates_player ;
+    public Coordinates [] coordinates_player ;
     public Rectangle [] player_rec ;
     public static int player_squares =1;
     float t;
-    int red,blue,green ;
+    public int red;
+    public int blue;
+    public int green ;
     public player(Panel panel){
         super(panel);
         coordinates_player = new Coordinates[player_length];
         for(int i=0 ;i<player_length;i++){
             coordinates_player[i]=new Coordinates();
         }
+        coordinates_player[0].x=0;
+        coordinates_player[0].y=0;
+
         red=0;
         green=0;
         blue=255;
@@ -47,11 +52,36 @@ public class player extends entity{
             case "right": coordinates_player[0].x += Panel.tile_size; break;
         }
 
-        if (coordinates_player[0].x < 0) coordinates_player[0].x = Panel.screenWidth - Panel.tile_size;
-        if (coordinates_player[0].x >= Panel.screenWidth) coordinates_player[0].x = 0;
+//        if (coordinates_player[0].x < 0) coordinates_player[0].x = Panel.screenWidth - Panel.tile_size;
+//        if (coordinates_player[0].x >= Panel.screenWidth) coordinates_player[0].x = 0;
+//
+//        if (coordinates_player[0].y < 0) coordinates_player[0].y = Panel.screenHeight - Panel.tile_size;
+//        if (coordinates_player[0].y >= Panel.screenHeight) coordinates_player[0].y = 0;
 
-        if (coordinates_player[0].y < 0) coordinates_player[0].y = Panel.screenHeight - Panel.tile_size;
-        if (coordinates_player[0].y >= Panel.screenHeight) coordinates_player[0].y = 0;
+        if (coordinates_player[0].x < 0){
+            panel.losed=true;
+            panel.gameStatus=panel.lose;
+        }
+        if (coordinates_player[0].x >= Panel.screenWidth) {
+            panel.losed=true;
+            panel.gameStatus = panel.lose;
+        }
+
+        if (coordinates_player[0].y < 0) {
+            panel.losed=true;
+            panel.gameStatus = panel.lose;
+        }
+        if (coordinates_player[0].y >= Panel.screenHeight) {
+            panel.losed=true;
+            panel.gameStatus = panel.lose;
+        }
+
+        for (int i = 1; i < player_squares ; i++) {
+            if(player_rec[0].intersects(player_rec[i])){
+                panel.losed=true;
+                panel.gameStatus=panel.lose;
+            }
+        }
     }
 
     @Override
