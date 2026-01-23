@@ -20,14 +20,14 @@ public class Panel extends JPanel implements Runnable{
     protected event_handler eventHandler= new event_handler(this);
     public int gameStatus ;
     protected final int loading = 0 ;
-    protected final int pause = 1 ;
-    protected final int playing = 2 ;
+    public final int win = 1 ;
+    public final int playing = 2 ;
     public final int lose = 3 ;
     //loop
     public Thread thread;
     private long currentTime;
     private int FPS=120;
-    private double drawInterval =Math.pow(10, 9)/FPS,move_interval=0.25,move_timer,delta,delta_time;
+    private double drawInterval =Math.pow(10, 9)/FPS,move_interval=0.1899999,move_timer,delta,delta_time;
     private long lastTime,timer ;
     private int drawCount;
     private int gameState;
@@ -38,8 +38,8 @@ public class Panel extends JPanel implements Runnable{
     int color_sprite_counter=0;
     int images_sprite_i =0;
     boolean reverse = false;
-    public boolean losed =false;
-    public String fofo_script="<html> Hi ,Im fofo<br>I hope you like Alaa's Game<br>What are you Waiting for <br>start the Game.....</html>";
+    public boolean losed =false,change_layout=false;
+    public String fofo_script="<html> Hi ,Im Fajer<br>I hope you like Alaa's Game<br>What are you Waiting for <br>start the Game.....</html>";
     public String Lose_script ="";
     public char[] fofo_script_chars,lose_script_chars;
     int script_index=0;
@@ -150,60 +150,66 @@ public class Panel extends JPanel implements Runnable{
             }
             case lose:{
 
-                ui.start_up_frame.remove(ui.fofo_label);
-                ui.start_up_frame.remove(ui.start_up_button);
-                ui.start_up_frame.repaint();
-                ui.start_up_frame.validate();
-
                 if(losed){
-                    ui.start_up_frame.setVisible(true);
+                    ui.try_Again_frame.setVisible(true);
                     Main.frame.setVisible(false);
-                    Lose_script="<html> YOU LOSE <br> Score : "+player.player_squares+"<br></html>";
+
+                    Lose_script="<html> YOU LOSE <br> Score : "+(player.player_squares-1)+"<br></html>";
                     lose_script_chars= Lose_script.toCharArray();
-                    ui.textLabel.setFont(ui.textLabel.getFont().deriveFont(30f));
-                    ui.textLabel.setBounds((screenWidth-(tile_size*5))/2,0,tile_size*6,tile_size*8);
-                    ui.textLabel.setText("");
+                    ui.try_again_text_label.setFont(ui.textLabel.getFont().deriveFont(30f));
+                    ui.try_again_text_label.setBounds((screenWidth-(tile_size*5))/2,0,tile_size*6,tile_size*8);
+                    ui.try_again_text_label.setText("");
 
 
                     ui.try_again_button.setText("TRY AGAIN");
-                    ui.try_again_button.setBounds((screenWidth-(tile_size*8))/2,(screenHeight-(tile_size*8))/2,tile_size*8,tile_size*8);
-                    ui.start_up_frame.add(ui.try_again_button);
-                    ui.try_again_button.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if(e.getSource()==ui.try_again_button){
-                                ui.start_up_frame.setVisible(false);
-                                Main.frame.setVisible(true);
-                                for (int i = 1; i <player.player_squares ; i++) {
-                                    player1.coordinates_player[i].x=-100;
-                                    player1.coordinates_player[i].y=-100;
-
-                                }
-                                player1.coordinates_player[0].x=0;
-                                player1.coordinates_player[0].y=0;
-
-                                player1.red=0;
-                                player1.green=0;
-                                player1.blue=255;
-                                player.player_squares =1;
-                                player1.next_direction = "right";
-                                food.x= food.random.nextInt(0,11) * Panel.tile_size;
-                                food.y= food.random.nextInt(0,11) * Panel.tile_size;
-                                food.food_rec.setLocation(food.x,food.y);
+                    ui.try_again_button.setBounds((screenWidth-(tile_size*8))/2,(screenHeight-(tile_size*4))/2,tile_size*8,tile_size*4);
 
 
-                                gameStatus=playing;
 
-                            }
-                        }
-                    });
                     script="";
                     script_index=0;
                     losed =false;
                 }
                 if(you_lose_counter>10){
                     if(script_index>5){
-                        ui.textLabel.setText(script);
+                        ui.try_again_text_label.setText(script);
+                    }
+
+                    if (script_index < Lose_script.length()) {
+                        script += lose_script_chars[script_index];
+                        script_index++;
+                    }
+                    you_lose_counter=0;
+                }
+                you_lose_counter++;
+
+                break;
+            }
+            case win:{
+
+                if(losed){
+                    ui.try_Again_frame.setVisible(true);
+                    Main.frame.setVisible(false);
+
+                    Lose_script="<html> YOU WIN <br>Max Score : "+(player.player_squares-1)+"<br></html>";
+                    lose_script_chars= Lose_script.toCharArray();
+                    ui.try_again_text_label.setFont(ui.textLabel.getFont().deriveFont(30f));
+                    ui.try_again_text_label.setBounds((screenWidth-(tile_size*5))/2,0,tile_size*6,tile_size*7);
+                    ui.try_again_text_label.setText("");
+
+
+                    ui.try_again_button.setText("PLAY AGAIN");
+                    ui.try_again_button.setBounds((screenWidth-(tile_size*8))/2,(screenHeight-(tile_size*4))/2,tile_size*8,tile_size*4);
+
+
+
+                    script="";
+                    script_index=0;
+                    losed =false;
+                }
+                if(you_lose_counter>10){
+                    if(script_index>5){
+                        ui.try_again_text_label.setText(script);
                     }
 
                     if (script_index < Lose_script.length()) {
@@ -221,7 +227,16 @@ public class Panel extends JPanel implements Runnable{
             }
         }
     }
+    public void resetGame(){
 
+
+        ui.try_again_button.setVisible(false);
+        ui.start_up_button.setVisible(false);
+        ui.start_up_button.setFocusable(false);
+        ui.fofo_label.setVisible(false);
+        ui.try_again_button.setVisible(true);
+
+    }
 
     @Override
     public void run() {

@@ -38,6 +38,10 @@ public class player extends entity{
 
     @Override
     public void update(){
+        if(player_squares==player_length){
+            panel.losed=true;
+            panel.gameStatus=panel.win;
+        }
         if(!next_direction.equalsIgnoreCase(opposite_direction(direction))){
             direction=next_direction;
         }

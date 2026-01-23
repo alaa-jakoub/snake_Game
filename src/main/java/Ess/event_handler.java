@@ -36,20 +36,20 @@ public class event_handler implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                panel.player1.next_direction = "up";
-                break;
-            case KeyEvent.VK_DOWN:
-                panel.player1.next_direction = "down";
-                break;
-            case KeyEvent.VK_LEFT:
-                panel.player1.next_direction = "left";
-                break;
-            case KeyEvent.VK_RIGHT:
-                panel.player1.next_direction = "right";
-                break;
-        }
+//        switch (e.getKeyCode()) {
+//            case KeyEvent.VK_UP:
+//                panel.player1.next_direction = "up";
+//                break;
+//            case KeyEvent.VK_DOWN:
+//                panel.player1.next_direction = "down";
+//                break;
+//            case KeyEvent.VK_LEFT:
+//                panel.player1.next_direction = "left";
+//                break;
+//            case KeyEvent.VK_RIGHT:
+//                panel.player1.next_direction = "right";
+//                break;
+//        }
     }
 
 
